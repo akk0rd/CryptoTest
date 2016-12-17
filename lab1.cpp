@@ -8,6 +8,8 @@
 #define COUNT_NUM 256 
 #define l 255
 
+//#define DEBUG
+
 int main(int argc, char* argv[])
 {	
 	std::ifstream input;
@@ -32,13 +34,24 @@ int main(int argc, char* argv[])
 	{
 		res[*i]++;
 	}
+#ifdef DEBUG
+	std::cout<<M<<"  :::IT IS M"<<std::endl;
+	for(size_t i = 0; i < COUNT_NUM; i++) std::cout<<res[i]<<"\t";
+#endif
+	
 	double hi_quadr = 0.0;
 	const int n_j = M/COUNT_NUM;
-	for(size_t i = 0;i < COUNT_NUM; i++)
+#ifdef DEBUG
+	std::cout<<n_j<<"   :::IT IS Nj"<<std::endl;
+#endif
+	for(size_t i = 1;i < COUNT_NUM; i++)
 	{
-		if(n_j != 0)
+		if(n_j != 0 && res[i] != 0)
 		{
 			hi_quadr += pow((res[i] - n_j),2)/n_j;
+		#ifdef DEBUG
+			std::cout<< hi_quadr<<"\t";
+		#endif
 		}
 	} 
 	std::cout << "hi quadro: " << (int)hi_quadr; 
@@ -102,12 +115,13 @@ int main(int argc, char* argv[])
 	std::cout << std::endl;
 	int m = M/r;
 	int n = r * m;
-	int res3[COUNT_NUM][4*COUNT_NUM] = {0};
+	int res3[COUNT_NUM][COUNT_NUM] = {0};
 	int count = 0;
 	for(auto i = dest.begin();i != dest.end();i++)
 	{
 		int temp = (int)(count / m);
 		res3[*i][temp]++;
+		count++;
 	}
 	sum = 0;
 	for(size_t i = 0; i < COUNT_NUM; i++)
@@ -121,10 +135,10 @@ int main(int argc, char* argv[])
 		}	
 	}
 	L = l*(r-1);
-	hi_quadr =N * (sum -1)/10;
+	hi_quadr =n * (sum -1);
         hiQuAlph = sqrt(2*L)*Z+L;
         std::cout << "hi quadro: " << (long unsigned int)hi_quadr<<std::endl;
-        std::cout << "hi quadro 1-alpha: " << (int)hiQuAlph << std::endl;
+        std::cout << "hi quadro 1-alpha: " << hiQuAlph << std::endl;
         if(hi_quadr <= hiQuAlph)
                 std::cout << "Good gipotez" << std::endl;
         else
